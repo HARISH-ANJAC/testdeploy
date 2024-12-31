@@ -1,12 +1,16 @@
 import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
+
 
 const app = express();
-const PORT = 3000;
-app.use(cors());
 
+dotenv.config();
+const PORT = process.env.PORT || 5000;
+app.use(cors());
+app.use(express.json());
 app.get('/', (req, res) => {
-  res.send('API is running...');
+  res.json({ message: 'API test with nodemon!' });
 });
 
 app.listen(PORT, () => {
