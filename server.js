@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import connectDB from './config/db.js';
 
 
 const app = express();
@@ -13,6 +14,10 @@ app.get('/', (req, res) => {
   res.json({ message: 'API test with nodemon!' });
 });
 
-app.listen(PORT, () => {
+connectDB().then(() => {
+  app.listen(PORT, () => {
     console.log(`Server is running http://localhost:${PORT}`);
+});
+}).catch((error) => {
+  console.log(error);
 });
