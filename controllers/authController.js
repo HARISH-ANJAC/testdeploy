@@ -1,5 +1,5 @@
 import User from '../models/userModel.js';
-import bcrypt from 'bcrypt';
+import bcryptjs from 'bcryptjs';
 
 
 //login
@@ -10,7 +10,7 @@ export const login = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcryptjs.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
