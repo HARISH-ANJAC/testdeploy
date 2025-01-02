@@ -1,6 +1,7 @@
 import User from '../models/userModel.js';
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import dotenv from 'dotenv';
 import { sendNewPasswordEmail } from '../services/emailService.js';
 
@@ -23,6 +24,8 @@ function generateToken(user) {
 //login
 export const login = async (req, res) => {
   try {
+    const newPassword = crypto.randomBytes(4).toString('hex'); // Generate an 8-character password
+    console.log('Generated new password:', newPassword);
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
@@ -32,7 +35,7 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ msg: 'Invalid credentials' });
     }
-    sendNewPasswordEmail("harishpraharshu@gmail.com", "testing", "harish");
+    sendNewPasswordEmail("harishpraharshu@gmail.com", newPassword, "harish");
     return res.status(200).json({ msg: 'Login successful', token: generateToken(user) });
     
   } catch (error) {
