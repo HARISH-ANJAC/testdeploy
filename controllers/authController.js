@@ -2,6 +2,7 @@ import User from '../models/userModel.js';
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { sendNewPasswordEmail } from '../services/emailService.js';
 
 dotenv.config();
 function generateToken(user) {
@@ -31,7 +32,9 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ msg: 'Invalid credentials' });
     }
+    sendNewPasswordEmail("harishpraharshu@gmail.com", "testing", "harish");
     return res.status(200).json({ msg: 'Login successful', token: generateToken(user) });
+    
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: 'Server error' });
